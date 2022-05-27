@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NovosibirskAptekas</string>
+    <string name="start">Старт</string>
+    <string name="ip">192.168.135.109</string>
+</resources>
