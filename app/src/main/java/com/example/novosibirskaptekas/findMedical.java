@@ -28,29 +28,31 @@ import java.util.List;
 public class findMedical extends AppCompatActivity {
     TextView tvInfo;
     EditText tvName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_first_zapros);
+        setContentView(R.layout.activity_find_medical);
         tvInfo = (TextView) findViewById(R.id.tvInfo);
         tvName = (EditText) findViewById(R.id.editTextTextPersonName);
     }
-    class MyTask extends AsyncTask<String, Void, ArrayList<String[]>> {
-
+    public void onClick(View v){
+        findMedical.MyTask mt = new findMedical.MyTask();
+        mt.execute(tvName.getText().toString());
+    }
+    class MyTask extends AsyncTask<String,Void, ArrayList<String[]>> {
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute(){
             super.onPreExecute();
             tvInfo.setText("Begin");
         }
         @Override
         protected ArrayList<String[]> doInBackground(String... params) {
-            ArrayList<String[]> res=new ArrayList <>();
+            ArrayList<String[]> res = new ArrayList <>();
             HttpURLConnection myConnection = null;
             try {
-                URL mySite = new
-                        URL("http://192.168.135.109:8080/pharmacy?id=2&title="+params[0]);
-                myConnection =
-                        (HttpURLConnection) mySite.openConnection();
+                URL mySite = new URL("http://192.168.0.101:8080/pharmacy?id=2&title="+params[0]);
+                myConnection = (HttpURLConnection) mySite.openConnection();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -97,7 +99,7 @@ public class findMedical extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     };
-                    String[] str=new String[2];
+                    String[] str=new String[3];
                     int n=0;
                     while (true) {
                         try {
@@ -109,14 +111,12 @@ public class findMedical extends AppCompatActivity {
                             key = jsonReader.nextName();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }
-// sb.append("\r\n : " +key);
+                        }// sb.append("\r\n : " +key);
                         try {
                             value = jsonReader.nextString();
                         } catch (IOException e) {
                             e.printStackTrace();
-                        }
-// sb.append("\r\n : " +value);
+                        }// sb.append("\r\n : " +value);
                         str[n]=value;
                         n++;
                     }
@@ -136,20 +136,15 @@ public class findMedical extends AppCompatActivity {
             myConnection.disconnect();
             return res;
         }
-
         @Override
-        protected void onPostExecute(ArrayList<String[]> result) {
+        protected void onPostExecute(ArrayList<String[]> result){
             super.onPostExecute(result);
-            findMedical.ClAdapter clAdapter=new
-                    findMedical.ClAdapter(tvInfo.getContext(),result);
+            findMedical.ClAdapter clAdapter = new findMedical.ClAdapter(tvInfo.getContext(),result);
             ListView lvMain = (ListView) findViewById(R.id.lvMain);
             lvMain.setAdapter(clAdapter);
             tvInfo.setText("End");
+
         }
-    }
-    public void onClick(View v) {
-        MyTask mt = new MyTask();
-        mt.execute(tvName.getText().toString());
     }
     class ClAdapter extends BaseAdapter {
         Context ctx;
@@ -183,6 +178,7 @@ public class findMedical extends AppCompatActivity {
             String[] p =(String[]) getItem(position);
             ((TextView) view.findViewById(R.id.tvText)).setText(p[0]);
             ((TextView) view.findViewById(R.id.tvText1)).setText(p[1]);
+            ((TextView) view.findViewById(R.id.tvText2)).setText(p[2]);
             return view;
         };
     }

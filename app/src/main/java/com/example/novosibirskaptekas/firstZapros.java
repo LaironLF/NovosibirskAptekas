@@ -48,7 +48,7 @@ public class firstZapros extends AppCompatActivity {
             HttpURLConnection myConnection = null;
             try {
                 URL mySite = new
-                        URL("http://192.168.135.109:8080/pharmacy?id=1&title="+params[0]);
+                        URL("http://192.168.0.101:8080/pharmacy?id=1&title="+params[0]);
                 myConnection =
                         (HttpURLConnection) mySite.openConnection();
             } catch (MalformedURLException e) {

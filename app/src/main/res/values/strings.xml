@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">NovosibirskAptekas</string>
+    <string name="app_name"></string>
     <string name="start">Старт</string>
     <string name="ip">192.168.135.109</string>
+    <string name="LogoText">My Pharmacy list</string>
+    <string name="underLogoText">Список аптек и лекарств</string>
+    <string name="todo">TODO</string>
 </resources>

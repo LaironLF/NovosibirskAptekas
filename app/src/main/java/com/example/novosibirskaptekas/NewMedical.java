@@ -49,14 +49,74 @@ public class NewMedical extends AppCompatActivity {
         tvName = (EditText) findViewById(R.id.editTextTextPersonName);
         lvMain = (ListView) findViewById(R.id.lvMain);
         lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        MyTask mt = new NewMedical.MyTask();
+        mt = new NewMedical.MyTask();
         mt.execute();
 
     }
     public void onclick(View v) {
-        MyTaskN mtn = new NewMedical.MyTaskN();
+        mtn = new NewMedical.MyTaskN();
         mtn.execute(tvName.getText().toString());
 //        lvMain.getCheckedItemPositions();
+    }
+    class MyTaskTF extends AsyncTask<String, Void, Void > {
+        @Override
+        protected Void doInBackground(String... params) {
+            String line = null;
+            String total = null;
+            HttpURLConnection myConnection=null;
+            try {
+                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy/");
+                myConnection =
+                        (HttpURLConnection) githubEndpoint.openConnection();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            myConnection.setRequestProperty("Accept",
+                    "application/vnd.github.v3+json");
+            myConnection.setRequestProperty("Contact-Me",
+                    "hathibelagal@example.com");
+            try {
+                myConnection.setRequestMethod("POST");
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            }
+            myConnection.setDoOutput(true);
+            try {
+                myConnection.getOutputStream().write(("id=3&idPharmancy=" + params[0]+"&idMedicine="+params[1]).getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            };
+
+            int i=0;
+            try {
+                i = myConnection.getResponseCode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+//                tvInfo.setText(str);
+            if (i==200) {
+                InputStream responseBody=null;
+                try {
+                    responseBody = myConnection.getInputStream();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                BufferedReader r = new BufferedReader(new InputStreamReader(responseBody));
+                while (true) {
+                    try {
+                        if (!((line = r.readLine()) != null)) break;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    total=line;
+                }
+            }
+
+            return null;
+        }
+
     }
     class MyTaskN extends AsyncTask<String, Void, String >{
         @Override
@@ -65,7 +125,7 @@ public class NewMedical extends AppCompatActivity {
             String total = null;
             HttpURLConnection myConnection=null;
             try {
-                URL githubEndpoint = new URL("http://192.168.135.109:8080/pharmacy");
+                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy/");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {
@@ -73,6 +133,10 @@ public class NewMedical extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            myConnection.setRequestProperty("Accept",
+                    "application/vnd.github.v3+json");
+            myConnection.setRequestProperty("Contact-Me",
+                    "hathibelagal@example.com");
             try {
                 myConnection.setRequestMethod("POST");
             } catch (ProtocolException e) {
@@ -122,72 +186,12 @@ public class NewMedical extends AppCompatActivity {
                 LinearLayout ll=(LinearLayout)lvMain.getChildAt(i);
                 CheckBox ch=(CheckBox)ll.getChildAt(0);
                 if (ch.isChecked()){
-                    MyTaskTF mttf = new NewMedical.MyTaskTF();
-                    mttf.execute(st[1],result);
+                    mttf = new NewMedical.MyTaskTF();
+                    mttf.execute(st[0],result);
                 };
             }
             tvInfo.setText("End");
         }
-    }
-    class MyTaskTF extends AsyncTask<String, Void, Void > {
-        @Override
-        protected Void doInBackground(String... params) {
-            String line = null;
-            String total = null;
-            HttpURLConnection myConnection=null;
-            try {
-                URL githubEndpoint = new URL("http://192.168.135.109:8080/pharmacy");
-                myConnection =
-                        (HttpURLConnection) githubEndpoint.openConnection();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            myConnection.setRequestProperty("Accept",
-                    "application/vnd.github.v3+json");
-            myConnection.setRequestProperty("Contact-Me",
-                    "hathibelagal@example.com");
-            try {
-                myConnection.setRequestMethod("POST");
-            } catch (ProtocolException e) {
-                e.printStackTrace();
-            }
-            myConnection.setDoOutput(true);
-            try {
-                myConnection.getOutputStream().write( ("id=3&idPharmancy=" + params[0]+"&idMedicine="+params[1]).getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            };
-
-            int i=0;
-            try {
-                i = myConnection.getResponseCode();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-//                tvInfo.setText(str);
-            if (i==200) {
-                InputStream responseBody=null;
-                try {
-                    responseBody = myConnection.getInputStream();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                BufferedReader r = new BufferedReader(new InputStreamReader(responseBody));
-                while (true) {
-                    try {
-                        if (!((line = r.readLine()) != null)) break;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    total=line;
-                }
-            }
-
-            return null;
-        }
-
     }
     class MyTask extends AsyncTask<Void, Void, ArrayList<String[]> >{
         @Override
@@ -201,7 +205,7 @@ public class NewMedical extends AppCompatActivity {
             ArrayList<String[]> res = new ArrayList<>();
             HttpURLConnection myConnection = null;
             try {
-                URL githubEndpoint = new URL("http://192.168.135.109:8080/pharmacy?id=3");
+                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy?id=3");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {
