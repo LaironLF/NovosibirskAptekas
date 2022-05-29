@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -23,6 +24,8 @@ public class newPharmacy extends AppCompatActivity {
     EditText tvName;
     EditText tvAddress;
     newPharmacy.MyTask mt;
+    ProgressBar prgrBar;
+    TextView added_data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,8 @@ public class newPharmacy extends AppCompatActivity {
         tvInfo = (TextView) findViewById(R.id.tvInfo);
         tvName = (EditText) findViewById(R.id.editTextTextPersonName);
         tvAddress = (EditText) findViewById(R.id.editTextTextPersonAddress);
+        prgrBar = (ProgressBar) findViewById(R.id.prgrBar);
+        added_data = (TextView) findViewById(R.id.added_data);
     }
     public void onclick(View v) {
         mt = new newPharmacy.MyTask();
@@ -40,6 +45,7 @@ public class newPharmacy extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             tvInfo.setText("Begin");
+            prgrBar.setVisibility(View.VISIBLE);
         }
         @Override
         protected Void doInBackground(String... params) {
@@ -73,7 +79,11 @@ public class newPharmacy extends AppCompatActivity {
         }
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            tvInfo.setText("End");
+            tvInfo.setText("");
+            tvName.setText("");
+            tvAddress.setText("");
+            prgrBar.setVisibility(View.INVISIBLE);
+            added_data.setVisibility(View.VISIBLE);
         }
     }
 }

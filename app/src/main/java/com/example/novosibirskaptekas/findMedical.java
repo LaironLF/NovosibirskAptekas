@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.List;
 public class findMedical extends AppCompatActivity {
     TextView tvInfo;
     EditText tvName;
+    ProgressBar prgrBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class findMedical extends AppCompatActivity {
         setContentView(R.layout.activity_find_medical);
         tvInfo = (TextView) findViewById(R.id.tvInfo);
         tvName = (EditText) findViewById(R.id.editTextTextPersonName);
+        prgrBar = (ProgressBar) findViewById(R.id.prgrBar);
     }
     public void onClick(View v){
         findMedical.MyTask mt = new findMedical.MyTask();
@@ -45,6 +48,7 @@ public class findMedical extends AppCompatActivity {
         protected void onPreExecute(){
             super.onPreExecute();
             tvInfo.setText("Begin");
+            prgrBar.setVisibility(View.VISIBLE);
         }
         @Override
         protected ArrayList<String[]> doInBackground(String... params) {
@@ -143,7 +147,7 @@ public class findMedical extends AppCompatActivity {
             ListView lvMain = (ListView) findViewById(R.id.lvMain);
             lvMain.setAdapter(clAdapter);
             tvInfo.setText("End");
-
+            prgrBar.setVisibility(View.INVISIBLE);
         }
     }
     class ClAdapter extends BaseAdapter {

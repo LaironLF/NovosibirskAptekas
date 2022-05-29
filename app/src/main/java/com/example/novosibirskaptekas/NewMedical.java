@@ -4,19 +4,15 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.JsonReader;
-import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +36,9 @@ public class NewMedical extends AppCompatActivity {
     NewMedical.MyTaskN mtn;
     NewMedical.MyTaskTF mttf;
     ListView lvMain;
+    ProgressBar prgrBar;
+    TextView added_data;
+
     //    String ID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +47,25 @@ public class NewMedical extends AppCompatActivity {
         tvInfo = (TextView) findViewById(R.id.tvInfo);
         tvName = (EditText) findViewById(R.id.editTextTextPersonName);
         lvMain = (ListView) findViewById(R.id.lvMain);
+        prgrBar = (ProgressBar) findViewById(R.id.prgrBar);
+        added_data = (TextView) findViewById(R.id.added_data);
         lvMain.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mt = new NewMedical.MyTask();
         mt.execute();
 
     }
-    public void onclick(View v) {
+    public void onсlick2(View v) {
         mtn = new NewMedical.MyTaskN();
         mtn.execute(tvName.getText().toString());
 //        lvMain.getCheckedItemPositions();
     }
     class MyTaskTF extends AsyncTask<String, Void, Void > {
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            prgrBar.setVisibility(View.VISIBLE);
+            added_data.setVisibility(View.INVISIBLE);
+        }
         @Override
         protected Void doInBackground(String... params) {
             String line = null;
@@ -115,6 +122,14 @@ public class NewMedical extends AppCompatActivity {
             }
 
             return null;
+        }
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            prgrBar.setVisibility(View.INVISIBLE);
+            added_data.setVisibility(View.VISIBLE);
+            tvName.setText("");
+
         }
 
     }
@@ -184,7 +199,7 @@ public class NewMedical extends AppCompatActivity {
             for (int i = 0; i < n; i++) {
                 String[] st=(String[])lvMain.getAdapter().getItem(i);
                 LinearLayout ll=(LinearLayout)lvMain.getChildAt(i);
-                CheckBox ch=(CheckBox)ll.getChildAt(0);
+                CheckBox ch=(CheckBox)ll.findViewById(R.id.checkBox);
                 if (ch.isChecked()){
                     mttf = new NewMedical.MyTaskTF();
                     mttf.execute(st[0],result);
@@ -198,6 +213,7 @@ public class NewMedical extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             tvInfo.setText("Begin");
+            prgrBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -309,6 +325,7 @@ public class NewMedical extends AppCompatActivity {
 //            lvMain = (ListView) findViewById(R.id.lvMain);
             lvMain.setAdapter(clAdapter);
             tvInfo.setText("End");
+            prgrBar.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -342,7 +359,7 @@ public class NewMedical extends AppCompatActivity {
                 view = lInflater.inflate(R.layout.itemt, parent, false);
             };
             String[] p =(String[]) getItem(position);
-            ((TextView) view.findViewById(R.id.tvText)).setText(p[0]);
+            ((TextView) view.findViewById(R.id.tvText)).setText(p[1]);
             //           ((TextView) view.findViewById(R.id.tvText1)).setText(p[1]);
 
             return view;

@@ -5,4 +5,11 @@
     <string name="LogoText">My Pharmacy list</string>
     <string name="underLogoText">Список аптек и лекарств</string>
     <string name="todo">TODO</string>
+    <string name="addMedical">Добавить лекарство</string>
+    <string name="EDname">Название:</string>
+    <string name="dataAdded">Данные добавлены</string>
+    <string name="addPharmacy">Добавить аптеку</string>
+    <string name="findMedical">Найти лекарство</string>
+    <string name="findPharmacy">Найти аптеку</string>
+    <string name="EDaddress">Адрес:</string>
 </resources>

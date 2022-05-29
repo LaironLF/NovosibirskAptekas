@@ -2,7 +2,7 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
     android:fillAfter="true"
     android:duration="350"
-    android:startOffset="350"
+    android:startOffset="200"
     android:shareInterpolator="true">
 
     <scale
