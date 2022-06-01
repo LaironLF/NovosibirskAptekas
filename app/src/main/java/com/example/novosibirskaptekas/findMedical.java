@@ -55,7 +55,7 @@ public class findMedical extends AppCompatActivity {
             ArrayList<String[]> res = new ArrayList <>();
             HttpURLConnection myConnection = null;
             try {
-                URL mySite = new URL("http://192.168.0.101:8080/pharmacy?id=2&title="+params[0]);
+                URL mySite = new URL("http://192.168.187.109:8080/pharmacy?id=2&title="+params[0]);
                 myConnection = (HttpURLConnection) mySite.openConnection();
             } catch (MalformedURLException e) {
                 e.printStackTrace();

@@ -51,7 +51,7 @@ public class newPharmacy extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             HttpURLConnection myConnection=null;
             try {
-                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy/");
+                URL githubEndpoint = new URL("http://192.168.187.109:8080/pharmacy/");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {

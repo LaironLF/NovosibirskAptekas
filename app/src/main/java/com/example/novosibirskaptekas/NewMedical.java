@@ -72,7 +72,7 @@ public class NewMedical extends AppCompatActivity {
             String total = null;
             HttpURLConnection myConnection=null;
             try {
-                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy/");
+                URL githubEndpoint = new URL("http://192.168.187.109:8080/pharmacy/");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {
@@ -140,7 +140,7 @@ public class NewMedical extends AppCompatActivity {
             String total = null;
             HttpURLConnection myConnection=null;
             try {
-                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy/");
+                URL githubEndpoint = new URL("http://192.168.187.109:8080/pharmacy/");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {
@@ -197,12 +197,13 @@ public class NewMedical extends AppCompatActivity {
             int n=lvMain.getChildCount();
 
             for (int i = 0; i < n; i++) {
-                String[] st=(String[])lvMain.getAdapter().getItem(i);
                 LinearLayout ll=(LinearLayout)lvMain.getChildAt(i);
                 CheckBox ch=(CheckBox)ll.findViewById(R.id.checkBox);
                 if (ch.isChecked()){
+                    TextView tv = (TextView)ll.findViewById(R.id.tvText0);
+                    String st = (String) tv.getText().toString();
                     mttf = new NewMedical.MyTaskTF();
-                    mttf.execute(st[0],result);
+                    mttf.execute(st,result);
                 };
             }
             tvInfo.setText("End");
@@ -221,7 +222,7 @@ public class NewMedical extends AppCompatActivity {
             ArrayList<String[]> res = new ArrayList<>();
             HttpURLConnection myConnection = null;
             try {
-                URL githubEndpoint = new URL("http://192.168.0.101:8080/pharmacy?id=3");
+                URL githubEndpoint = new URL("http://192.168.187.109:8080/pharmacy?id=3");
                 myConnection =
                         (HttpURLConnection) githubEndpoint.openConnection();
             } catch (MalformedURLException e) {
@@ -276,7 +277,7 @@ public class NewMedical extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     };
-                    String[] str=new String[2];
+                    String[] str=new String[3];
                     int n=0;
                     while (true) {
                         try {
@@ -359,7 +360,9 @@ public class NewMedical extends AppCompatActivity {
                 view = lInflater.inflate(R.layout.itemt, parent, false);
             };
             String[] p =(String[]) getItem(position);
-            ((TextView) view.findViewById(R.id.tvText)).setText(p[1]);
+            ((TextView) view.findViewById(R.id.tvText0)).setText(p[0]);
+            ((TextView) view.findViewById(R.id.tvText1)).setText(p[1]);
+            ((TextView) view.findViewById(R.id.tvText2)).setText(p[2]);
             //           ((TextView) view.findViewById(R.id.tvText1)).setText(p[1]);
 
             return view;
